@@ -57,6 +57,10 @@ class AppState {
     this.isEventActive = isActive;
     if (!isActive) {
       this.currentState = STATES.ENDED;
+    } else if (this.currentState === STATES.ENDED) {
+      // If event is restarted, reset to welcome screen
+      this.currentState = STATES.WELCOME;
+      this.token = null;
     }
     this.saveState();
     this.notifyListeners();
