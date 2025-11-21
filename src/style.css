@@ -6,17 +6,18 @@
 }
 
 :root {
-  /* Color palette - WCAG AA compliant */
-  --color-primary: #1a73e8;
-  --color-primary-dark: #0d47a1;
-  --color-secondary: #5f6368;
-  --color-bg: #ffffff;
-  --color-surface: #f8f9fa;
-  --color-text: #202124;
-  --color-text-secondary: #5f6368;
-  --color-border: #dadce0;
-  --color-success: #1e8e3e;
-  --color-error: #d93025;
+  /* AI Portland Color palette - WCAG AA compliant */
+  --color-primary: #ff6b9d;
+  --color-primary-dark: #e5548a;
+  --color-gradient: linear-gradient(135deg, #ff6b9d 0%, #ff7b6b 100%);
+  --color-secondary: #94a3b8;
+  --color-bg: #1e293b;
+  --color-surface: #334155;
+  --color-text: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-border: #475569;
+  --color-success: #10b981;
+  --color-error: #ef4444;
 
   /* Spacing */
   --space-xs: 0.5rem;
@@ -88,14 +89,14 @@ body {
 /* Typography */
 h1 {
   font-size: var(--font-size-2xl);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.2;
   margin-bottom: var(--space-sm);
 }
 
 h2 {
   font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text);
   margin-bottom: var(--space-sm);
 }
@@ -111,8 +112,12 @@ p {
 }
 
 .logo h1 {
-  color: var(--color-primary);
+  background: var(--color-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-size: var(--font-size-3xl);
+  font-weight: 900;
 }
 
 .intro {
@@ -158,10 +163,11 @@ p {
 
 .prompt-box {
   background: var(--color-surface);
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-primary);
   border-radius: var(--border-radius);
   padding: var(--space-lg);
   margin: var(--space-md) 0;
+  box-shadow: 0 0 20px rgba(255, 107, 157, 0.15);
 }
 
 .prompt-text {
@@ -216,12 +222,19 @@ p {
 }
 
 .btn-primary {
-  background: var(--color-primary);
+  background: var(--color-gradient);
   color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
 }
 
 .btn-primary:hover {
-  background: var(--color-primary-dark);
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-secondary {
@@ -271,9 +284,9 @@ p {
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   :root {
-    --color-primary: #0000ff;
-    --color-text: #000000;
-    --color-bg: #ffffff;
+    --color-primary: #ff1493;
+    --color-text: #ffffff;
+    --color-bg: #000000;
   }
 }
 
