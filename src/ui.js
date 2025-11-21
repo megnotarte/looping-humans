@@ -8,7 +8,8 @@ function renderWelcome() {
   return `
     <div class="screen welcome-screen">
       <div class="logo">
-        <h1>AI Portland<br>Networking</h1>
+        <h1>Looping Humans</h1>
+        <p class="subtitle">by AI Portland</p>
       </div>
       <div class="content">
         <p class="intro">
