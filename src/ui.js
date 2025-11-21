@@ -98,9 +98,11 @@ function renderEnded() {
           The networking session has ended.<br>
           Enjoy the event!
         </p>
-        <div class="emoji-decoration" aria-hidden="true">
-          🤖 💡 🚀
-        </div>
+        <img
+          src="https://aipdx.info/android-chrome-192x192.png"
+          alt="AI Portland Logo"
+          class="aipdx-logo"
+        />
       </div>
     </div>
   `;

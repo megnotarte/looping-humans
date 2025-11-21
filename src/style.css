@@ -199,10 +199,13 @@ p {
   margin: var(--space-lg) 0;
 }
 
-.emoji-decoration {
-  font-size: 4rem;
-  margin-top: var(--space-xl);
-  opacity: 0.6;
+.aipdx-logo {
+  width: 120px;
+  height: 120px;
+  margin: var(--space-xl) auto 0;
+  display: block;
+  opacity: 0.9;
+  animation: fadeInScale 0.5s ease;
 }
 
 /* Buttons */
