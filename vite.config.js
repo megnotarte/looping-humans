@@ -3,17 +3,15 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   build: {
     target: 'es2015',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-      },
-    },
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         manualChunks: undefined,
       },
     },
+  },
+  esbuild: {
+    drop: ['console', 'debugger'],
   },
   server: {
     port: 3000,
