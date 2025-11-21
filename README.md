@@ -35,15 +35,24 @@ This app helps attendees connect during the pre-event mingling period through:
 npm install
 ```
 
-### 2. Configure Supabase
+### 2. Configure Environment Variables
 
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Copy your project URL and anon key
-3. Update `src/config.js` with your credentials
-4. Run the SQL setup script:
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Create a new project at [supabase.com](https://supabase.com)
+
+3. Update `.env` with your Supabase credentials:
+   ```
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-key-here
+   ```
+
+4. Set up the database:
    - Go to Supabase SQL Editor
-   - Copy contents of `database-setup.sql`
-   - Run the script
+   - Run the SQL commands to create the `event_state` table and policies
 
 ### 3. Run Development Server
 
