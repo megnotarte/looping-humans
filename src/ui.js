@@ -13,10 +13,10 @@ function renderWelcome() {
       </div>
       <div class="content">
         <p class="intro">
-          Connect with fellow AI enthusiasts during tonight's event!
+          Connect with fellow AI enthusiasts!
         </p>
         <p class="description">
-          Get matched with someone new and enjoy a fun conversation starter.
+          Get matched and enjoy a fun conversation.
         </p>
       </div>
       <button id="start-btn" class="btn btn-primary" aria-label="Start networking">
