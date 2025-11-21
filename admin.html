@@ -150,7 +150,7 @@
     import { setEventState, getEventState, subscribeToEventState } from './src/supabase.js';
 
     // Password protection
-    const ADMIN_PASSWORD = 'aipdx2025'; // Change this to your desired password
+    const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
     const AUTH_KEY = 'admin_authenticated';
 
     // Check if already authenticated

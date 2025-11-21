@@ -44,10 +44,11 @@ npm install
 
 2. Create a new project at [supabase.com](https://supabase.com)
 
-3. Update `.env` with your Supabase credentials:
+3. Update `.env` with your Supabase credentials and admin password:
    ```
    VITE_SUPABASE_URL=https://your-project.supabase.co
    VITE_SUPABASE_ANON_KEY=your-anon-key-here
+   VITE_ADMIN_PASSWORD=your-secure-password
    ```
 
 4. Set up the database:
