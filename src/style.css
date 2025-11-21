@@ -74,7 +74,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: calc(100vh - 3rem);
-  gap: var(--space-lg);
+  gap: var(--space-sm);
 }
 
 .content {
@@ -83,7 +83,7 @@ body {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
 }
 
 /* Typography */
@@ -103,12 +103,12 @@ h2 {
 
 p {
   font-size: var(--font-size-lg);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 /* Welcome screen */
 .logo {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-sm);
 }
 
 .logo h1 {
@@ -118,26 +118,27 @@ p {
   background-clip: text;
   font-size: var(--font-size-3xl);
   font-weight: 900;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .logo .subtitle {
   color: var(--color-text-secondary);
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   margin-top: 0;
   letter-spacing: 0.05em;
 }
 
 .intro {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: var(--space-sm);
+  margin-bottom: 0;
 }
 
 .description {
   color: var(--color-text-secondary);
+  font-size: 1rem;
   max-width: 400px;
   margin: 0 auto;
 }
@@ -209,7 +210,7 @@ p {
 .btn {
   display: block;
   width: 100%;
-  padding: 1rem 2rem;
+  padding: 0.875rem 1.75rem;
   font-size: var(--font-size-lg);
   font-weight: 600;
   border: none;
@@ -217,7 +218,7 @@ p {
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
-  min-height: 56px; /* Touch target */
+  min-height: 52px; /* Touch target */
   font-family: inherit;
 }
 
@@ -301,16 +302,51 @@ p {
 
 /* Mobile optimizations */
 @media (max-width: 480px) {
+  #app {
+    padding: var(--space-sm);
+  }
+
+  .screen {
+    gap: var(--space-xs);
+  }
+
+  .content {
+    gap: var(--space-xs);
+  }
+
+  .logo {
+    margin-bottom: var(--space-xs);
+  }
+
+  .logo h1 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: 0.25rem;
+  }
+
+  .logo .subtitle {
+    font-size: 0.75rem;
+  }
+
+  .intro {
+    font-size: 1.125rem;
+  }
+
+  .description {
+    font-size: 0.875rem;
+  }
+
   .token-display {
     font-size: 8rem;
+    margin: var(--space-md) 0;
   }
 
   h1 {
     font-size: var(--font-size-xl);
   }
 
-  .logo h1 {
-    font-size: var(--font-size-2xl);
+  .btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1.125rem;
   }
 }
 
