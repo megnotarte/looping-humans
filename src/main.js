@@ -13,11 +13,11 @@ async function init() {
     render();
   });
 
-  // Initial render
-  render();
-
-  // Check event state from Supabase
+  // Check event state from Supabase FIRST (before initial render)
   await checkEventState();
+
+  // Initial render (after database check)
+  render();
 
   // Set up polling for event state
   setInterval(checkEventState, POLL_INTERVAL);
