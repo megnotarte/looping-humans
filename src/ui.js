@@ -99,7 +99,7 @@ function renderEnded() {
           Enjoy the event!
         </p>
         <img
-          src="https://aipdx.info/android-chrome-192x192.png"
+          src="/AGI.png"
           alt="AI Portland Logo"
           class="aipdx-logo"
         />
