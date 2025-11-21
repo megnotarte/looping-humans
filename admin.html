@@ -149,6 +149,21 @@
   <script type="module">
     import { setEventState, getEventState, subscribeToEventState } from './src/supabase.js';
 
+    // Password protection
+    const ADMIN_PASSWORD = 'aipdx2025'; // Change this to your desired password
+    const AUTH_KEY = 'admin_authenticated';
+
+    // Check if already authenticated
+    if (sessionStorage.getItem(AUTH_KEY) !== 'true') {
+      const password = prompt('Admin password required:');
+      if (password !== ADMIN_PASSWORD) {
+        alert('Incorrect password');
+        window.location.href = '/';
+        throw new Error('Authentication failed');
+      }
+      sessionStorage.setItem(AUTH_KEY, 'true');
+    }
+
     const statusDiv = document.getElementById('status');
     const startBtn = document.getElementById('start-btn');
     const endBtn = document.getElementById('end-btn');
