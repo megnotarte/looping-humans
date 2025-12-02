@@ -1,5 +1,6 @@
 import { STATES, appState } from './state.js';
 import { getPromptForToken } from './prompts.js';
+import { trackParticipation } from './main.js';
 
 /**
  * Render the welcome screen
@@ -162,7 +163,11 @@ export function render() {
 function attachWelcomeListeners() {
   const startBtn = document.getElementById('start-btn');
   if (startBtn) {
-    startBtn.addEventListener('click', () => {
+    startBtn.addEventListener('click', async () => {
+      // Track participation (anonymous, once per session)
+      await trackParticipation();
+
+      // Continue with normal flow
       appState.assignNewToken();
       appState.setState(STATES.TOKEN);
     });
