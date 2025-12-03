@@ -118,6 +118,82 @@
       padding-top: 1rem;
       border-top: 1px solid #e0e0e0;
     }
+
+    .analytics {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid #e0e0e0;
+    }
+
+    .analytics h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: #202124;
+    }
+
+    .participant-count {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .participant-count .count {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #1e8e3e;
+      line-height: 1;
+    }
+
+    .participant-count .label {
+      color: #5f6368;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .history h3 {
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      color: #202124;
+    }
+
+    .session-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .session-item {
+      background: #f8f9fa;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .session-item.active {
+      background: #e6f4ea;
+      border-left: 3px solid #1e8e3e;
+    }
+
+    .session-date {
+      font-size: 0.875rem;
+      color: #5f6368;
+    }
+
+    .session-participants {
+      font-weight: 600;
+      color: #202124;
+    }
+
+    .no-sessions {
+      color: #5f6368;
+      font-style: italic;
+      text-align: center;
+      padding: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -144,10 +220,26 @@
       • Click "End Event" to show closing message to all users<br>
       • Changes take effect immediately
     </div>
+
+    <div class="analytics">
+      <h2>📊 Session Analytics</h2>
+
+      <div id="current-session" class="participant-count">
+        <div class="count" id="participant-count">0</div>
+        <div class="label">participants in current session</div>
+      </div>
+
+      <div class="history">
+        <h3>📅 Session History</h3>
+        <div id="session-list" class="session-list">
+          <div class="no-sessions">No sessions yet</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type="module">
-    import { setEventState, getEventState, subscribeToEventState } from './src/supabase.js';
+    import { setEventState, getEventState, subscribeToEventState, createSession, endSession, getActiveSession, getPastSessions, subscribeToSessions } from './src/supabase.js';
 
     // Password protection
     const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
@@ -168,8 +260,11 @@
     const startBtn = document.getElementById('start-btn');
     const endBtn = document.getElementById('end-btn');
     const messageDiv = document.getElementById('message');
+    const participantCountDiv = document.getElementById('participant-count');
+    const sessionListDiv = document.getElementById('session-list');
 
     let currentState = null;
+    let currentSession = null;
 
     // Update UI based on state
     function updateUI(isActive) {
@@ -213,14 +308,78 @@
       }
     }
 
+    // Format date for display
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+      });
+    }
+
+    // Load and display session history
+    async function loadSessionHistory() {
+      try {
+        const sessions = await getPastSessions(10);
+
+        if (sessions.length === 0) {
+          sessionListDiv.innerHTML = '<div class="no-sessions">No sessions yet</div>';
+          return;
+        }
+
+        sessionListDiv.innerHTML = sessions.map(session => `
+          <div class="session-item ${session.is_active ? 'active' : ''}">
+            <div>
+              <div class="session-date">${formatDate(session.started_at)}</div>
+              ${session.is_active ? '<div style="font-size: 0.75rem; color: #1e8e3e; font-weight: 600;">● ACTIVE</div>' : ''}
+            </div>
+            <div class="session-participants">${session.participants_count} participant${session.participants_count !== 1 ? 's' : ''}</div>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading session history:', error);
+      }
+    }
+
+    // Update participant count display
+    async function updateParticipantCount() {
+      try {
+        const session = await getActiveSession();
+        currentSession = session;
+
+        if (session) {
+          participantCountDiv.textContent = session.participants_count;
+        } else {
+          participantCountDiv.textContent = '0';
+        }
+      } catch (error) {
+        console.error('Error updating participant count:', error);
+      }
+    }
+
     // Start event
     startBtn.addEventListener('click', async () => {
       try {
         startBtn.disabled = true;
+
+        // Create new session
+        const session = await createSession();
+        if (!session) {
+          showMessage('Failed to create session', 'error');
+          startBtn.disabled = false;
+          return;
+        }
+
+        // Set event state
         const success = await setEventState(true);
         if (success) {
           showMessage('Event started successfully!', 'success');
           updateUI(true);
+          await updateParticipantCount();
+          await loadSessionHistory();
         } else {
           showMessage('Failed to start event', 'error');
           startBtn.disabled = false;
@@ -240,10 +399,19 @@
 
       try {
         endBtn.disabled = true;
+
+        // End current session if exists
+        if (currentSession) {
+          await endSession(currentSession.id);
+        }
+
+        // Set event state
         const success = await setEventState(false);
         if (success) {
           showMessage('Event ended successfully', 'success');
           updateUI(false);
+          await updateParticipantCount();
+          await loadSessionHistory();
         } else {
           showMessage('Failed to end event', 'error');
           endBtn.disabled = false;
@@ -262,8 +430,24 @@
       }
     });
 
+    // Subscribe to session changes (for real-time participant count updates)
+    subscribeToSessions(async (payload) => {
+      // Reload participant count and history when sessions change
+      await updateParticipantCount();
+      await loadSessionHistory();
+    });
+
     // Initial load
-    loadState();
+    async function init() {
+      await loadState();
+      await updateParticipantCount();
+      await loadSessionHistory();
+
+      // Poll for participant count updates every 5 seconds
+      setInterval(updateParticipantCount, 5000);
+    }
+
+    init();
   </script>
 </body>
 </html>
